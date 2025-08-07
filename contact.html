@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hill Side Academy | Contact Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+
+<body>
+     <header>
+        <div class="container">
+            <h1 class="logo">Hill Side Academy</h1>
+             <i class="ri-menu-line hamburger" onclick="toggleMenu()"></i>
+           
+            <nav class="navbar">
+                
+                <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section id="contact-section">
+        <div class="contact-container">
+            <h2>Contact Us</h2>
+            <p>
+                We would love to hear from you! Whether you have questions about our programs, admissions, or just want
+                to learn more about Riverside Academy, feel free to reach out.
+            </p>
+        </div>
+
+    </section>
+     <section id="contact-form-section">
+    <div class="contact-form-container">
+        <div class="contact-form-grid">
+            <!-- Contact Form -->
+            <div id="contact-form-card" class="contact-form-card">
+                <h2 class="contact-form-title">Send us a Message</h2>
+                <form id="contact-form-fields" class="contact-form-fields">
+                    <div class="form-group">
+                        <input type="text" id="contact-name" placeholder=" ">
+                        <label for="contact-name">Full Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="contact-email" placeholder=" ">
+                        <label for="contact-email">Email Address</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="contact-phone" placeholder=" ">
+                        <label for="contact-phone">Phone Number</label>
+                    </div>
+                    <div class="form-group">
+                        <select id="contact-subject">
+                            <option value="">Select Subject</option>
+                            <option value="admission">Admission Inquiry</option>
+                            <option value="academic">Academic Information</option>
+                            <option value="facilities">Facilities Tour</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="contact-message" rows="5" placeholder=" "></textarea>
+                        <label for="contact-message">Message</label>
+                    </div>
+                    <button type="submit" id="contact-submit">Send Message</button>
+                </form>
+            </div>
+            <!-- Contact Info -->
+            <div id="contact-info" class="contact-info">
+                <h2 class="contact-info-title">Get in Touch</h2>
+                <div class="contact-info-list">
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon"><i class="ri-map-pin-line ri-xl text-primary"></i></div>
+                        <div class="contact-info-details">
+                            <h3 class="contact-info-heading">Address</h3>
+                            <p class="contact-info-text">
+                                123 Education Avenue<br>
+                                Lagos State, Nigeria<br>
+                                100001
+                            </p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon"><i class="ri-phone-line ri-xl text-secondary"></i></div>
+                        <div class="contact-info-details">
+                            <h3 class="contact-info-heading">Phone</h3>
+                            <p class="contact-info-text">
+                                +234 901 234 5678<br>
+                                +234 901 234 5679
+                            </p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon"><i class="ri-mail-line ri-xl text-green-600"></i></div>
+                        <div class="contact-info-details">
+                            <h3 class="contact-info-heading">Email</h3>
+                            <p class="contact-info-text">
+                                info@riversidehigh.edu.ng<br>
+                                admissions@riversidehigh.edu.ng
+                            </p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon"><i class="ri-time-line ri-xl text-orange-500"></i></div>
+                        <div class="contact-info-details">
+                            <h3 class="contact-info-heading">Office Hours</h3>
+                            <p class="contact-info-text">
+                                Monday - Friday: 8:00 AM - 4:00 PM<br>
+                                Saturday: 9:00 AM - 2:00 PM<br>
+                                Sunday: Closed
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-info-map">
+                    
+                    <iframe class="contact-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d818.0333867883724!2d-82.25639226504596!3d34.90309796167661!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88582b864d9ea8e7%3A0x44a24ab368031720!2sRiverside%20High%20School!5e0!3m2!1sen!2ssl!4v1754591728273!5m2!1sen!2ssl" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+</body>
+<script>
+    function toggleMenu() {
+      const navLinks = document.getElementById('navLinks');
+      navLinks.classList.toggle('show');
+    }
+
+   
+  </script>
+
+</html>
