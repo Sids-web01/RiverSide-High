@@ -89,6 +89,10 @@
       .nav-links.show {
         display: flex;
       }
+      .navbar ul li a {
+    color: red;
+   
+}
     }
 
 
@@ -150,13 +154,14 @@ header {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-align: center;
     animation: fadeInUp 1s ease-out;
 }
 
 .section-container p {
     font-size: 1.27rem;
     color: var(--text-dark);
-    width: 50%;
+    width: 100%;
     margin-bottom: 1.5rem;
     font-weight: 400;
 }
@@ -164,6 +169,8 @@ header {
 .cta-btns {
     display: flex;
     gap: 2rem;
+    flex-wrap: wrap;
+    
 }
 
 .cta-btns a {

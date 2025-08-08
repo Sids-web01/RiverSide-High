@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hill Side Academy</title>
+    <title>RiverSide Academy | Home Page</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
 <body>
     <header>
         <div class="container">
-            <h1 class="logo">Hill Side Academy</h1>
+            <h1 class="logo">RiverSide Academy </h1>
              <i class="ri-menu-line hamburger" onclick="toggleMenu()"></i>
            
             <nav class="navbar">
@@ -31,12 +31,12 @@
     </header>
     <section class="section" id="home-page">
         <div class="section-container">
-            <h1>Excellence in <br> Education</h1>
-            <p>Empowering students to achieve their full potential through innovative learning, dedicated teaching, and
+            <h1>Excellence in Education</h1>
+            <p>Empowering students to achieve their full potential through innovative learning, <br> dedicated teaching, and
                 a supportive community environment.</p>
             <div class="cta-btns">
-                <a href="#courses" class="btn btn-primary">Learn More</a>
-                <a href="#contact" class="btn btn-secondary">Log In</a>
+                <a href="about.html" class="btn btn-primary">Learn More</a>
+                <a href="contact.html" class="btn btn-secondary">Contact Us</a>
             </div>
         </div>
 
@@ -88,19 +88,19 @@
         <div class="statistics-container">
             <div class="statistics-grid">
                 <div class="statistic-item">
-                    <div class="statistic-value statistic-primary">1,250</div>
+                    <div class="statistic-value statistic-primary counter "  data-target="1250">0</div>
                     <div class="statistic-label">Students</div>
                 </div>
                 <div class="statistic-item">
-                    <div class="statistic-value statistic-secondary">85</div>
+                    <div class="statistic-value statistic-secondary counter"  data-target="85">0</div>
                     <div class="statistic-label">Teachers</div>
                 </div>
                 <div class="statistic-item">
-                    <div class="statistic-value statistic-green">98%</div>
+                    <div class="statistic-value statistic-green counter"  data-target="98%">0%</div>
                     <div class="statistic-label">College Rate</div>
                 </div>
                 <div class="statistic-item">
-                    <div class="statistic-value statistic-orange">25</div>
+                    <div class="statistic-value statistic-orange counter" data-target="25" >0</div>
                     <div class="statistic-label">Years</div>
                 </div>
             </div>
@@ -110,13 +110,7 @@
     
    
 </body>
- <script>
-    function toggleMenu() {
-      const navLinks = document.getElementById('navLinks');
-      navLinks.classList.toggle('show');
-    }
+<script src="script.js"></script>
 
-   
-  </script>
 
 </html>
