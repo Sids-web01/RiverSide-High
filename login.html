@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RiverSide Academy | Log In Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">RiverSide Academy </h1>
+             <i class="ri-menu-line hamburger" onclick="toggleMenu()"></i>
+           
+            <nav class="navbar">
+                
+                <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html">Log In</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+     <section class="loginsection" id="loginsection">
+        <div class="login-container">
+            <!-- Login Box -->
+           <div class="log-main">
+             <div class="login-box">
+                <h1 class="log">Check Student Results</h1>
+                <input type="text" id="studentID" placeholder="Enter Student ID">
+                <input type="password" id="studentPass" placeholder="Enter Password">
+                <button onclick="checkResult()" class="btn">Check</button>
+                <p id="message"></p>
+            </div>
+           </div>
+
+            <!-- Results Box -->
+            <div class="results-box" style="display: none;">
+                <h2 class="log">Student Results</h2>
+                <div class="imgbox">
+                    <img id="studentImage" class="student-image" src="" alt="Student Image">
+                </div>
+                <div class="details-box" id="studentDetails"></div>
+
+                <table>
+                    <thead>
+                        <tr>
+
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTable">
+                    </tbody>
+                </table>
+
+                <div class="position-box">
+                    <p id="term1Position"></p>
+                    <p id="term2Position"></p>
+                    <p id="term3Position"></p>
+                </div>
+
+                <button onclick="goBack()" class="btn">Go Back</button>
+            </div>
+
+        </div>
+    </section>
+   
+    
+   
+</body>
+<script src="script.js"></script>
+
+
+</html>

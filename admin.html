@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RiverSide Academy  | Admin Panel Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+
+<body>
+   <header>
+        <div class="container">
+            <h1 class="logo">RiverSide Academy </h1>
+             <i class="ri-menu-line hamburger" onclick="toggleMenu()"></i>
+           
+            <nav class="navbar">
+                
+                <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html">Log In</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <button class="toggle-btn" onclick="toggleSidebar()">✖</button>
+    <h2>Menu</h2>
+    <div class="tabs">
+        <button class="tab-button active" data-tab="tab1">Edit Grades</button>
+        <button class="tab-button" data-tab="tab2">Register Students</button>
+        <button class="tab-button" data-tab="tab3">Add Grades</button>
+        <button class="tab-button" data-tab="tab4">Edit Studnt Info</button>
+        <button class="tab-button" id="logoutBtn" onclick="logout()">Logout</button>
+      </div>
+  </div>
+
+  <!-- Toggle in corner when sidebar is hidden -->
+  <button class="toggle-corner" id="cornerToggle" onclick="toggleSidebar()" style="display: none;">☰</button>
+
+  <!-- Main content -->
+  <div class="main" id="mainContent">
+    <div id="tab2" class="tab-content">
+        <!-- Add Student -->
+        <div id="addStudent" class="tab active">
+          <div class="form-section" id="add-student-form">
+            <h2>Add Student</h2>
+            <form id="studentForm">
+              <label>ID <input type="text" name="id" required /></label>
+              <label>Password <input type="text" name="password" required /></label>
+              <label>Name <input type="text" name="name" required /></label>
+              <label>Gender
+                <select name="gender">
+                  <option>Male</option>
+                  <option>Female</option>
+                </select>
+              </label>
+              <label>Class <input type="text" name="class" required /></label>
+              <label>Guardian <input type="text" name="guardian" /></label>
+              <label>Teacher <input type="text" name="teacher" /></label>
+              <label>Contact <input type="text" name="contact" /></label>
+              <label>Image <input type="file" name="image" accept="image/*" required /></label>
+              <label>Role
+                <select name="role">
+                  <option>Student</option>
+                  <option>Admin</option>
+                </select>
+              </label>
+              <button type="submit">Register</button>
+            </form>
+            <p id="status"></p>
+          </div>
+        </div>
+    
+      </div>
+      <div id="tab1" class="tab-content active">
+        <!-- Your original content here -->
+        <h2>Student Grade Management</h2>
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Search by name or ID" oninput="filterTable()">
+        </div>
+        <table id="studentsTable">
+    
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Class</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+    
+        <div class="modal" id="editModal">
+          <div class="modal-content">
+            <h3>Edit Grade</h3>
+            <p><strong>ID:</strong> <span id="modalID"></span></p>
+            <select id="termSelect">
+              <option value="1">Term 1</option>
+              <option value="2">Term 2</option>
+              <option value="3">Term 3</option>
+            </select>
+            <select id="subjectSelect">
+              <option>Math</option>
+              <option>English</option>
+              <option>Science</option>
+              <option>Social Studies</option>
+              <option>History</option>
+              <option>Geography</option>
+              <option>Physics</option>
+              <option>Chemistry</option>
+              <option>Biology</option>
+              <option>ICT</option>
+              <option>Religious Studies</option>
+              <option>Music</option>
+              <option>Physical Education</option>
+              <option>Art</option>
+            </select>
+            <label>Grade:
+              <input type="number" id="gradeInput">
+            </label>
+            <br>
+            <div style="display: flex; justify-content: space-between;">
+              <button onclick="saveGrade()">Save</button>
+              <button onclick="closeModal()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="tab3" class="tab-content">
+        <div id="addGrades" class="tab">
+          <div class="form-section">
+            <h2>Add Grades</h2>
+            <form id="gradesForm">
+              <label>Student ID <input type="text" name="studentID" id="studentId" required /></label>
+    
+              <label>Term
+                <select name="term" id="term" required>
+                  <option value="">Select Term</option>
+                  <option value="Term 1">Term 1</option>
+                  <option value="Term 2">Term 2</option>
+                  <option value="Term 3">Term 3</option>
+                </select>
+              </label>
+    
+              <label>Subject
+                <select name="subject" id="subject" required>
+                  <option value="">Select Subject</option>
+                  <option>Math</option>
+                  <option>English</option>
+                  <option>Science</option>
+                  <option>Social Studies</option>
+                  <option>History</option>
+                  <option>Geography</option>
+                  <option>Physics</option>
+                  <option>Chemistry</option>
+                  <option>Biology</option>
+                  <option>ICT</option>
+                  <option>Religious Studies</option>
+                  <option>Music</option>
+                  <option>Physical Education</option>
+                  <option>Art</option>
+                </select>
+              </label>
+    
+              <label>Marks <input type="number" name="marks" id="marks" min="0" max="100" required /></label>
+              <label>Position (optional) <input type="text" name="position" id="position" /></label>
+    
+              <button type="submit">Submit Grades</button>
+              <p id="gradesStatus" style="text-align:center; margin-top: 10px; font-weight: bold;"></p>
+            </form>
+          </div>
+        </div>
+    
+      </div>
+      <div id="tab4" class="tab-content">
+        <div class="container">
+          <h2>All Students</h2>
+          <div class="search-box-div">
+            <input type="text" id="searchInput2" class="search-input" placeholder="Search by name, class, or ID..."
+              oninput="searchStudents()" />
+            <button onclick="fetchAllStudents()" class="action-button">Fetch All Students</button>
+          </div>
+    
+          <div class="table-container" id="studentsTableContainer">
+            <table class="student-table" id="studentList" border="1">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Class</th>
+                  <th>Gender</th>
+                  <th>Contact</th>
+                  <th>Guardian</th>
+                  <th>Teacher</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <p id="statusText" class="status-message"></p>
+        </div>
+    
+    
+        <!-- Edit Student Modal -->
+        <div id="editStudentModal" class="modal4">
+          <h3>Edit Student</h3>
+          <input id="editID" class="readonly-input" placeholder="ID" readonly />
+          <input id="editName" class="form-input" placeholder="Name" />
+          <input id="editClass" class="form-input" placeholder="Class" />
+          <input id="editGender" class="form-input" placeholder="Gender" />
+          <input id="editContact" class="form-input" placeholder="Contact" />
+          <input id="editGuardian" class="form-input" placeholder="Guardian" />
+          <input id="editTeacher" class="form-input" placeholder="Teacher" />
+          <input id="editPassword" class="form-input" placeholder="Password" />
+    
+          <label>Upload New Image</label>
+          <input type="file" id="editImageInput" class="file-input" accept="image/*" />
+          <img id="imagePreview" class="preview-image" src="" alt="Current Image" /><br />
+    
+          <div class="modal-btns">
+            <button onclick="saveEdit()" class="action-button">Save</button>
+            <button onclick="closeModal2()" class="action-button">Cancel</button>
+          </div>
+        </div>
+    
+    
+      </div>
+    
+  </div>
+
+   
+
+
+
+</body>
+<script src="script.js"></script>
+
+
+</html>
