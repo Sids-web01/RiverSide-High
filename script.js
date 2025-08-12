@@ -36,133 +36,109 @@ function toggleMenu() {
 
 
 
-  // function to handle the log in page 
-  
-
-const scriptURL = "https://script.google.com/macros/s/AKfycbxHrsZ_TMmtSfRkEwuj0c-QbDUjzLdjWBDbbTcN8vuHUqOzue1N9-S6w_lrqFwV-tFykg/exec";
-
+  // Function to handle login when "Check" button is clicked
 async function checkResult() {
-    const userID = document.getElementById("studentID").value.trim();
-    const userPass = document.getElementById("studentPass").value.trim();
-    const message = document.getElementById("message");
-    const adminID = "admin123";
-    const adminPassword = "password";
+  const ID = document.getElementById('studentID').value.trim();
+  const password = document.getElementById('studentPass').value.trim();
+  const messageEl = document.getElementById('message');
 
-    if (!userID || !userPass) {
-        message.textContent = "Please enter both ID and Password.";
-        return;
-    }
+  // Basic input validation
+  if (!ID || !password) {
+    messageEl.textContent = 'Please enter both ID and password.';
+    return;
+  }
 
-    // ✅ Check if user is admin first
-    if (userID === adminID && userPass === adminPassword) {
-        window.location.href = "ADMIN.html";
-        return; // 🔥 Prevent the rest of the function from running
-    }
-
-    try {
-        const response = await fetch(scriptURL);
-        const data = await response.json();
-
-        if (!Array.isArray(data)) {
-            message.textContent = "Data format error. Check Google Sheets structure.";
-            return;
-        }
-
-        let matchedUser = data.find(user =>
-            String(user.ID).trim() === userID &&
-            String(user.Password).trim() === userPass
-        );
-
-        if (matchedUser) {
-            displayResults(matchedUser);
-        } else {
-            message.textContent = "Incorrect ID or Password. Please try again.";
-        }
-    } catch (error) {
-        message.textContent = "Error fetching data. Try again later.";
-    }
-}
-
-
-
-function displayResults(student) {
-    document.querySelector(".login-box").style.display = "none";
-    document.querySelector(".results-box").style.display = "block";
-
-    document.getElementById("studentDetails").innerHTML = `
-        <p><strong>Name:</strong> ${student.Name}</p>
-        <p><strong>Gender:</strong> ${student.Gender}</p>
-        <p><strong>ID:</strong> ${student.ID}</p>
-        <p><strong>Class:</strong> ${student.Class}</p>
-        <p><strong>Guardian:</strong> ${student.Guardian}</p>
-        <p><strong>Teacher:</strong> ${student.Teacher}</p>
-        <p><strong>Contact:</strong> ${student.Contact}</p>
-    `;
-
-    const studentImage = document.getElementById("studentImage");
-
-if (student.Image && student.Image.trim() !== "") {
-    let imageURL = student.Image.trim();
-    console.log("Original Image URL from Google Sheets:", imageURL);
-
-    // ✅ Convert Google Drive link if needed
-    const match = imageURL.match(/\/d\/(.+?)\//);
-    if (match) {
-        const fileID = match[1];
-        // Use alternative Google link
-        imageURL = `https://lh3.googleusercontent.com/d/${fileID}=s400`;
-        console.log("Converted Google Drive Image URL:", imageURL);
-    }
-
-    studentImage.src = imageURL;
-    studentImage.style.display = "flex";
-
-    studentImage.onerror = function () {
-        console.error("Image failed to load:", imageURL);
-        studentImage.style.display = "none";
-    };
-} else {
-    console.warn("No image found for student.");
-    studentImage.style.display = "none";
-}
-
-    
-
-    // Populate Results Table
-    const resultsTable = document.getElementById("resultsTable");
-    resultsTable.innerHTML = `
-        <tr>
-            <th>Subject</th>
-            <th>Term 1</th>
-            <th>Term 2</th>
-            <th>Term 3</th>
-        </tr>
-    `;
-
-    const subjects = [
-        "Math", "English", "Science", "Social Studies", "History",
-        "Geography", "Physics", "Chemistry", "Biology", "ICT",
-        "Religious Studies", "Physical Education", "Art"
-    ];
-
-    subjects.forEach(subject => {
-        resultsTable.innerHTML += `
-            <tr>
-                <td>${subject}</td>
-                <td>${student[`${subject} Term 1 Marks`] || "-"}</td>
-                <td>${student[`${subject} Term 2 Marks`] || "-"}</td>
-                <td>${student[`${subject} Term 3 Marks`] || "-"}</td>
-            </tr>
-        `;
+  try {
+    // Send login data to backend API
+    const res = await fetch('http://localhost:5000/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ID, password }),
     });
 
-    document.getElementById("term1Position").textContent = `Term 1 Position: ${student["Term 1 Position"] || "N/A"}`;
-    document.getElementById("term2Position").textContent = `Term 2 Position: ${student["Term 2 Position"] || "N/A"}`;
-    document.getElementById("term3Position").textContent = `Term 3 Position: ${student["Term 3 Position"] || "N/A"}`;
+    // Parse JSON response
+    const data = await res.json();
+
+    // If login fails, show error message
+    if (!res.ok) {
+      messageEl.textContent = data.message || 'Login failed';
+      return;
+    }
+
+    // If user is admin, redirect to admin panel
+    if (data.role === 'admin') {
+      window.location.href = '/admin.html'; // Change to your admin page URL
+      return;
+    }
+
+    // If user is student, show their results
+    if (data.role === 'student') {
+      messageEl.textContent = '';
+
+      // Hide login box and show results box
+      document.querySelector('.login-box').style.display = 'none';
+      document.querySelector('.results-box').style.display = 'block';
+
+      // Display student image
+      document.getElementById('studentImage').src = data.data.image || '';
+
+      // Display personal details
+      const detailsBox = document.getElementById('studentDetails');
+      detailsBox.innerHTML = `
+        <p><strong>Name:</strong> ${data.data.name || 'N/A'}</p>
+        <p><strong>Gender:</strong> ${data.data.gender || 'N/A'}</p>
+        <p><strong>Class:</strong> ${data.data.studentClass || 'N/A'}</p>
+        <p><strong>Guardian:</strong> ${data.data.guardian || 'N/A'}</p>
+        <p><strong>Teacher:</strong> ${data.data.teacher || 'N/A'}</p>
+        <p><strong>Contact:</strong> ${data.data.contact || 'N/A'}</p>
+      `;
+
+      // Build results table with marks for each subject
+      const resultsTable = document.getElementById('resultsTable');
+      resultsTable.innerHTML = ''; // Clear existing rows
+
+      const marks = data.data.marks || {};
+
+      for (const subject in marks) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><strong>${capitalize(subject)}</strong></td>
+          <td>${marks[subject].term1 ?? 'N/A'}</td>
+          <td>${marks[subject].term2 ?? 'N/A'}</td>
+          <td>${marks[subject].term3 ?? 'N/A'}</td>
+        `;
+        resultsTable.appendChild(row);
+      }
+
+      // Show term positions
+      document.getElementById('term1Position').textContent = `Term 1 Position: ${data.data.positions?.term1 ?? 'N/A'}`;
+      document.getElementById('term2Position').textContent = `Term 2 Position: ${data.data.positions?.term2 ?? 'N/A'}`;
+      document.getElementById('term3Position').textContent = `Term 3 Position: ${data.data.positions?.term3 ?? 'N/A'}`;
+    }
+  } catch (error) {
+    messageEl.textContent = 'Error connecting to server.';
+    console.error('Login error:', error);
+  }
 }
 
-function goBack() {
-    document.querySelector(".results-box").style.display = "none";
-    document.querySelector(".login-box").style.display = "block";
+// Helper function to capitalize first letter of subject names
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+// Function to handle "Go Back" button, resetting UI
+function goBack() {
+  document.querySelector('.results-box').style.display = 'none';
+  document.querySelector('.login-box').style.display = 'block';
+
+  // Clear inputs and messages
+  document.getElementById('studentID').value = '';
+  document.getElementById('studentPass').value = '';
+  document.getElementById('message').textContent = '';
+}
+
+
+// funcion to add students 
+
+
 

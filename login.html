@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 </head>
 
@@ -16,12 +16,12 @@
     <header>
         <div class="container">
             <h1 class="logo">RiverSide Academy </h1>
-             <i class="ri-menu-line hamburger" onclick="toggleMenu()"></i>
-           
+            <i class="ri-menu-line hamburger" onclick="toggleMenu()"></i>
+
             <nav class="navbar">
-                
+
                 <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="service.html">Services</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -30,18 +30,18 @@
             </nav>
         </div>
     </header>
-     <section class="loginsection" id="loginsection">
+    <section class="loginsection" id="loginsection">
         <div class="login-container">
             <!-- Login Box -->
-           <div class="log-main">
-             <div class="login-box">
-                <h1 class="log">Check Student Results</h1>
-                <input type="text" id="studentID" placeholder="Enter Student ID">
-                <input type="password" id="studentPass" placeholder="Enter Password">
-                <button onclick="checkResult()" class="btn">Check</button>
-                <p id="message"></p>
+            <div class="log-main">
+                <div class="login-box">
+                    <h1 class="log">Check Student Results</h1>
+                    <input type="text" id="studentID" placeholder="Enter Student ID">
+                    <input type="password" id="studentPass" placeholder="Enter Password">
+                    <button onclick="checkResult()" class="btn">Check</button>
+                    <p id="message"></p>
+                </div>
             </div>
-           </div>
 
             <!-- Results Box -->
             <div class="results-box" style="display: none;">
@@ -72,11 +72,111 @@
 
         </div>
     </section>
-   
-    
-   
+
+
+
 </body>
-<script src="script.js"></script>
+<script>
+    async function checkResult() {
+        const id = document.getElementById('studentID').value.trim();
+        const pass = document.getElementById('studentPass').value.trim();
+        const messageEl = document.getElementById('message');
+        const resultsBox = document.querySelector('.results-box');
+        const loginBox = document.querySelector('.login-box');
+        const studentDetails = document.getElementById('studentDetails');
+        const resultsTable = document.getElementById('resultsTable');
+        const studentImage = document.getElementById('studentImage');
+
+        messageEl.textContent = '';
+
+        if (!id || !pass) {
+            messageEl.textContent = 'Please enter both ID and password.';
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:5000/api/students/${id}`);
+            if (!res.ok) {
+                messageEl.textContent = 'Student not found';
+                return;
+            }
+            const student = await res.json();
+
+            if (student.password !== pass) {
+                messageEl.textContent = 'Incorrect password';
+                return;
+            }
+
+            // Show student personal info
+            studentDetails.innerHTML = `
+      <p><strong>ID:</strong> ${student.ID}</p>
+      <p><strong>Name:</strong> ${student.name}</p>
+      <p><strong>Class:</strong> ${student.class || 'N/A'}</p>
+      <p><strong>Gender:</strong> ${student.gender}</p>
+      <p><strong>Guardian:</strong> ${student.guardian || 'N/A'}</p>
+      <p><strong>Teacher:</strong> ${student.teacher || 'N/A'}</p>
+      <p><strong>Contact:</strong> ${student.contact || 'N/A'}</p>
+    `;
+
+            // Set student image
+            studentImage.src = student.image || '';
+
+            // Build subjects & marks table rows
+            resultsTable.innerHTML = ''; // Clear old rows
+
+            // Assume your marks object structure is something like:
+            // marks: { math1: 90, english1: 80, math2: 85, ... }
+            // We'll create a table that shows subjects by term
+
+            const subjects = [
+                'math', 'english', 'science', 'socialStudies', 'history', 'geography',
+                'physics', 'chemistry', 'biology', 'ICT', 'religiousStudies', 'music',
+                'physicalEducation', 'art'
+            ];
+
+            // Create table header row for terms
+            const thead = document.querySelector('table thead tr');
+            thead.innerHTML = '<th>Subject</th><th>Term 1</th><th>Term 2</th><th>Term 3</th>';
+
+            subjects.forEach(subject => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+        <td>${capitalize(subject)}</td>
+        <td>${student.marks?.[subject + '1'] ?? '-'}</td>
+        <td>${student.marks?.[subject + '2'] ?? '-'}</td>
+        <td>${student.marks?.[subject + '3'] ?? '-'}</td>
+      `;
+                resultsTable.appendChild(tr);
+            });
+
+            // Show positions per term
+            document.getElementById('term1Position').textContent = `Term 1 Position: ${student.positions?.term1 ?? 'N/A'}`;
+            document.getElementById('term2Position').textContent = `Term 2 Position: ${student.positions?.term2 ?? 'N/A'}`;
+            document.getElementById('term3Position').textContent = `Term 3 Position: ${student.positions?.term3 ?? 'N/A'}`;
+
+            // Show results box, hide login box
+            resultsBox.style.display = 'block';
+            loginBox.style.display = 'none';
+
+        } catch (error) {
+            messageEl.textContent = 'Error fetching student data';
+            console.error(error);
+        }
+    }
+
+    function capitalize(word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }
+
+    function goBack() {
+        document.querySelector('.results-box').style.display = 'none';
+        document.querySelector('.login-box').style.display = 'block';
+        document.getElementById('message').textContent = '';
+        document.getElementById('studentID').value = '';
+        document.getElementById('studentPass').value = '';
+    }
+
+</script>
 
 
 </html>
