@@ -35,7 +35,12 @@ function toggleMenu() {
   });
 
 
-const scriptURL = "https://script.google.com/macros/s/AKfycbwZd5LK3ICdX6yEess9uW-z9MUFzBd2NLzugH9KchfBGmbHRInd1o8M3TnhPWVU8MKZrg/exec";
+
+
+
+
+
+const scriptURL = "https://script.google.com/macros/s/AKfycbyQZYXB8fNn171K_OWzei8jogJc8uJ5jWEkIxQp-A3UmwnKOjv0jSzDrteFeq-sad96ZQ/exec";
 
 async function checkResult() {
     const userID = document.getElementById("studentID").value.trim();
@@ -161,3 +166,6 @@ function goBack() {
     document.querySelector(".results-box").style.display = "none";
     document.querySelector(".login-box").style.display = "block";
 }
+
+
+
